@@ -1,0 +1,8 @@
+@model YourApp.ViewModels.DashboardViewModel
+
+<h2>Вітаємо, @Model.FullName</h2>
+
+<p>Вид спорту: @Model.Sport</p>
+<p>Місто: @Model.City</p>
+
+<a asp-action="Profile" class="btn btn-secondary">Редагувати профіль</a>

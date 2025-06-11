@@ -1,0 +1,76 @@
+@model YourApp.ViewModels.FindPartnersViewModel
+
+@{
+    ViewData["Title"] = "Пошук спортивних партнерів";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="search-filters">
+    <form asp-action="FindPartners" method="get" class="form-inline">
+
+        <div class="form-group mb-3">
+            <label asp-for="Sport" class="form-label me-2">Вид спорту:</label>
+            <select asp-for="Sport" class="form-select" asp-items="Model.SportList">
+                <option value="">Всі</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3 ms-3">
+            <label asp-for="City" class="form-label me-2">Місто:</label>
+            <input asp-for="City" class="form-control" placeholder="Введіть місто" />
+        </div>
+
+        <div class="form-group mb-3 ms-3">
+            <label asp-for="SkillLevel" class="form-label me-2">Рівень:</label>
+            <select asp-for="SkillLevel" class="form-select" asp-items="Model.SkillLevelList">
+                <option value="">Всі</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3 ms-3">
+            <label asp-for="AgeFrom" class="form-label me-2">Вік від:</label>
+            <input asp-for="AgeFrom" class="form-control" type="number" min="10" max="100" />
+        </div>
+
+        <div class="form-group mb-3 ms-3">
+            <label asp-for="AgeTo" class="form-label me-2">Вік до:</label>
+            <input asp-for="AgeTo" class="form-control" type="number" min="10" max="100" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3 ms-3">Знайти</button>
+    </form>
+</div>
+
+@if (Model.Partners != null && Model.Partners.Any())
+{
+    <div class="search-results mt-4">
+        <h3>Результати пошуку (@Model.Partners.Count):</h3>
+        <ul class="list-group">
+            @foreach (var partner in Model.Partners)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@partner.FullName</strong> — @partner.Sport, рівень: @partner.SkillLevel <br />
+                        Місто: @partner.City, Вік: @partner.Age
+                    </div>
+                    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@partner.Id" class="btn btn-outline-info btn-sm">Переглянути профіль</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+else if (Model.Partners != null)
+{
+    <p class="text-muted mt-4">За заданими параметрами пошуку партнерів не знайдено.</p>
+}
+else
+{
+    <p class="text-muted mt-4">Виконайте пошук, щоб побачити результати.</p>
+}
+
+@section Scripts {
+    <script>
+        // інше
+    </script>
+}

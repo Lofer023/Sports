@@ -1,0 +1,19 @@
+@model YourApp.ViewModels.ChatViewModel
+
+<h2>Чат із користувачем</h2>
+
+<div class="chat-window">
+    @foreach (var message in Model.Messages)
+    {
+        <div class="message @(message.SenderId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value ? "sent" : "received")">
+            <p>@message.Content</p>
+            <small>@message.Timestamp.ToLocalTime().ToString("g")</small>
+        </div>
+    }
+</div>
+
+<form asp-action="SendMessage" method="post">
+    <input type="hidden" asp-for="PartnerId" />
+    <textarea asp-for="NewMessage" class="form-control" rows="3"></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Відправити</button>
+</form>
